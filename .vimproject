@@ -1,0 +1,65 @@
+ProtLM=/$PWD filter="*.rb *.rake Rakefile *.rdoc *.R *.sh *.js *.haml *.sass *.txt *.conf" {
+ workflow.rb
+ bin=bin filter="*"{
+ }
+ lib=lib {
+ }
+ test=test {
+  test_helper.rb
+ }
+ data=data filter="*"{
+  fine-tuning-data-esm2=fine-tuning-data-esm2 {
+   kras_train_lbl.txt
+   kras_val_lbl.txt
+  }
+  fine-tuning-data-protgpt2=fine-tuning-data-protgpt2 {
+   training.txt
+   validation.txt
+  }
+ }
+ scripts=scripts filter="*"{
+  clm.py
+  mlm.py
+ }
+ python=python{
+  prot_lm.py
+ }
+ modules=modules{
+  protein-design-pipeline=protein-design-pipeline {
+   README.md
+   data=data {
+    fine-tuning-data-esm2=fine-tuning-data-esm2 {
+     kras_train_lbl.txt
+     kras_val_lbl.txt
+    }
+    fine-tuning-data-protgpt2=fine-tuning-data-protgpt2 {
+     training.txt
+     validation.txt
+    }
+   }
+   scripts=scripts {
+    classify-sequences=classify-sequences {
+     my_logger.py
+     plusnegs-training.py
+     sbatch-run-ppi.sh
+    }
+    fine-tune-esm2=fine-tune-esm2 {
+     run_mlm.py
+     run_mlm.sh
+    }
+    fine-tune-protgpt2=fine-tune-protgpt2 {
+     run-saved.cmd
+     run_clm-save.py
+    }
+    generate-sequences=generate-sequences {
+     generate_seq_protgpt2.py
+     run-1.sh
+    }
+    perplexity-calculation=perplexity-calculation {
+     calculate_perplexity.py
+     run-perplexity.cmd
+    }
+   }
+  }
+ }
+}
